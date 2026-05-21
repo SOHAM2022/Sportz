@@ -1,6 +1,6 @@
 {
-  "id": "108260e0-0b8d-43c3-ad31-791c8a2dbee2",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "1ea5ab79-09df-44d2-955c-6e05f5b3684f",
+  "prevId": "108260e0-0b8d-43c3-ad31-791c8a2dbee2",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -24,25 +24,25 @@
           "name": "minute",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "sequence": {
           "name": "sequence",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "period": {
           "name": "period",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "event_type": {
           "name": "event_type",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "actor": {
           "name": "actor",
