@@ -7,7 +7,6 @@ import { matches } from "../db/schema.js";
 import { getMatchStatus } from "../utils/match-status.js";
 import { db } from "../db/db.js";
 import {desc} from "drizzle-orm";
-
 const MAX_LIMIT = 100;
 export const matchRouter = Router();
 
@@ -28,7 +27,6 @@ matchRouter.get("/", async (req, res) => {
     const data = await db
       .select()
       .from(matches)
-      .limit(limit)
       .orderBy(desc(matches.createdAt))
       .limit(limit);
 
@@ -70,10 +68,11 @@ matchRouter.post("/", async (req, res) => {
       })
       .returning();
 
+    if(res.app.locals.broadcastMatchCreated) res.app.locals.broadcastMatchCreated(event)
     res.status(201).json({ data: event });
   } catch (error) {
     res
       .status(500)
-      .json({ error: "failed to create match", details: JSON.stringify(e) });
+      .json({ error: "failed to create match", details: JSON.stringify(error) });
   }
 });
