@@ -12,7 +12,7 @@ export const httpArcjet = ARCJETKEY ?
         key: ARCJETKEY,
         rules:[
             shield({mode:ARCJETMODE}),
-            detectBot({mode:ARCJETMODE,allow:["CATEGORY:SEARCH_ENGINE","CATEGORY:PREVIEW"]}),
+            detectBot({mode:ARCJETMODE,allow:["CATEGORY:SEARCH_ENGINE","CATEGORY:PREVIEW","CATEGORY:TOOL"]}),
             slidingWindow({mode:ARCJETMODE,interval:'10s',max:50})
         ]
     }) : null
@@ -20,12 +20,10 @@ export const httpArcjet = ARCJETKEY ?
 
 
 export const wsArcjet = ARCJETKEY ?
-    await arcjet({
+    arcjet({
         key: ARCJETKEY,
         rules:[
-            shield({mode:ARCJETMODE}),
-            detectBot({mode:ARCJETMODE,allow:["CATEGORY:SEARCH_ENGINE","CATEGORY:PREVIEW"]}),
-            slidingWindow({mode:ARCJETMODE,interval:'2s',max:5})
+            slidingWindow({mode:ARCJETMODE,interval:'10s',max:50})
         ]
     }) : null
 
