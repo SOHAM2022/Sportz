@@ -44,7 +44,7 @@ export function securityMiddleware(){
             }
         }catch (e) {
             console.error("arcjet middleware error ",e);
-            return res.status(503).json({error:"arcjet middleware error",details:e.message})
+            return res.status(503).json({error:"arcjet middleware error"})
         }
 
 

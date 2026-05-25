@@ -24,7 +24,8 @@ export function attachWebSocketServer(server){
     })
 
     server.on('upgrade', async (req, socket, head) => {
-        if (req.url !== '/ws') {
+        const pathname = new URL(req.url, 'http://localhost').pathname;
+        if (pathname !== '/ws') {
             socket.destroy();
             return;
         }
