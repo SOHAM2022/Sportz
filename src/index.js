@@ -1,4 +1,6 @@
 import express from "express";
+import AgentAPI from "apminsight";
+AgentAPI.config();
 import "dotenv/config";
 import { matchRouter } from "./routes/matches.js";
 import { commentaryRouter } from "./routes/commentary.js";
