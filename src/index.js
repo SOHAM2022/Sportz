@@ -3,6 +3,7 @@ import "dotenv/config";
 import { matchRouter } from "./routes/matches.js";
 import http from "http";
 import {attachWebSocketServer} from "../ws/server.js";
+import {securityMiddleware} from "./arcjet.js";
 
 const PORT = process.env.PORT || 8000;
 const HOST = process.env.HOST || "0.0.0.0";
@@ -15,6 +16,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the Real-Time Sports Dashboard API" });
 });
+
+app.use(securityMiddleware())
 
 app.use("/matches", matchRouter);
 
