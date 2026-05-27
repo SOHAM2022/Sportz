@@ -1,0 +1,9 @@
+services:
+  app:
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+    environment:
+      NODE_ENV: development
+      ARCJETMODE: DRY_RUN

@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sports}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sports}
+      POSTGRES_DB: ${POSTGRES_DB:-sports_dashboard}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-sports} -d ${POSTGRES_DB:-sports_dashboard}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - sports-net
+
+  migrate:
+    build: .
+    command: npm run db:migrate
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-sports}:${POSTGRES_PASSWORD:-sports}@db:5432/${POSTGRES_DB:-sports_dashboard}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - sports-net
+    restart: "no"
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8000}:8000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-sports}:${POSTGRES_PASSWORD:-sports}@db:5432/${POSTGRES_DB:-sports_dashboard}
+      PORT: 8000
+      HOST: 0.0.0.0
+      ARCJET_KEY: ${ARCJET_KEY}
+      ARCJETMODE: ${ARCJETMODE:-LIVE}
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - sports-net
+
+networks:
+  sports-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
